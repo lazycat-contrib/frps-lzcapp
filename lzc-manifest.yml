@@ -3,7 +3,7 @@ application:
   background_task: true
   upstreams:
     - location: /
-      backend: http://frps:7500/
+      backend: http://host.lzcapp:7500/
   injects:
     - id: inject-frps-basic-auth
       on: request
@@ -15,22 +15,11 @@ application:
           "Authorization",
           "Basic " + ctx.base64.encode("{{ .U.webserver_user }}:{{ .U.webserver_password }}")
         );
-  ingress:
-    - protocol: tcp
-      port: 7000
-      publish_port: "7000"
-      service: frps
-      description: "frps bind port"
-    - protocol: tcp
-      port: 6000
-      publish_port: "6000"
-      service: frps
-      description: "Allowed proxy port"
-
 services:
   frps:
     # upstream: ghcr.io/fatedier/frps:v0.70.1
     image: ghcr.1ms.run/fatedier/frps:v0.70.1
+    network_mode: host
     environment:
       - FRPS_BIND_ADDR=0.0.0.0
       - FRPS_BIND_PORT=7000

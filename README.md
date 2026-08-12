@@ -4,11 +4,11 @@ This directory packages `frps` `v0.70.1` as a LazyCat LPK v2 application using t
 
 ## What it exposes
 
-- HTTP management UI through LazyCat at the application subdomain, backed by `frps:7500`
-- TCP ingress on `7000` for the frp control channel
-- TCP ingress on `6000` as the only allowed proxy port
+- HTTP management UI through LazyCat at the application subdomain, backed by `host.lzcapp:7500`
+- Host-network TCP port `7000` for the frp control channel
+- Host-network TCP port `6000` as the only allowed proxy port
 
-The packaged `content/frps.toml` is copied to `/etc/frp/frps.toml` at startup, then rendered by frp itself from `FRPS_*` environment variables.
+The service uses host networking. The packaged `content/frps.toml` is copied to `/etc/frp/frps.toml` at startup, then rendered by frp itself from `FRPS_*` environment variables.
 
 ## Deployment parameters
 
