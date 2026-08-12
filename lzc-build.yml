@@ -2,3 +2,8 @@ manifest: ./lzc-manifest.yml
 contentdir: ./content
 pkgout: ./dist
 icon: ./icon.png
+
+compose_override:
+  services:
+    frps:
+      entrypoint: /lzcapp/pkg/content/startup.sh

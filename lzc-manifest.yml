@@ -30,11 +30,6 @@ services:
       - "FRPS_WEBSERVER_PASSWORD={{ .U.webserver_password }}"
     binds:
       - /lzcapp/var/frps/config:/etc/frp
-    setup_script: |
-      if [ ! -f /etc/frp/frps.toml ]; then
-        cp /lzcapp/pkg/content/frps.toml /etc/frp/frps.toml
-      fi
-    command: -c /etc/frp/frps.toml
 
 usage: |
   部署时填写与 frpc 一致的鉴权令牌，LazyCat 会自动为内置管理面板注入 Basic Authorization。
