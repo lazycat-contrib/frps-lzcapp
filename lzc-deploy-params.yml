@@ -1,0 +1,42 @@
+params:
+  - id: auth_token
+    type: secret
+    name: FRP Auth Token
+    description: "Required token used by frps and matching frpc clients."
+    optional: false
+
+  - id: webserver_user
+    type: string
+    name: Web UI Username
+    description: "Username for the frps dashboard."
+    default_value: admin
+    optional: false
+
+  - id: webserver_password
+    type: secret
+    name: Web UI Password
+    description: "Password for the frps dashboard."
+    default_value: "$random(len=24)"
+    optional: false
+
+locales:
+  zh:
+    auth_token:
+      name: FRP 鉴权令牌
+      description: "frps 与配对 frpc 共同使用的必填鉴权令牌。"
+    webserver_user:
+      name: Web UI 用户名
+      description: "frps 管理面板用户名。"
+    webserver_password:
+      name: Web UI 密码
+      description: "frps 管理面板密码。"
+  en:
+    auth_token:
+      name: FRP Auth Token
+      description: "Required token used by frps and matching frpc clients."
+    webserver_user:
+      name: Web UI Username
+      description: "Username for the frps dashboard."
+    webserver_password:
+      name: Web UI Password
+      description: "Password for the frps dashboard."

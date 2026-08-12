@@ -1,0 +1,49 @@
+application:
+  subdomain: frps
+  background_task: true
+  upstreams:
+    - location: /
+      backend: http://frps:7500/
+  injects:
+    - id: inject-frps-basic-auth
+      on: request
+      auth_required: false
+      when:
+        - /*
+      do: |
+        ctx.headers.set(
+          "Authorization",
+          "Basic " + ctx.base64.encode("{{ .U.webserver_user }}:{{ .U.webserver_password }}")
+        );
+  ingress:
+    - protocol: tcp
+      port: 7000
+      publish_port: "7000"
+      service: frps
+      description: "frps bind port"
+    - protocol: tcp
+      port: 6000
+      publish_port: "6000"
+      service: frps
+      description: "Allowed proxy port"
+
+services:
+  frps:
+    # upstream: ghcr.io/fatedier/frps:v0.70.1
+    image: ghcr.1ms.run/fatedier/frps:v0.70.1
+    environment:
+      - FRPS_BIND_ADDR=0.0.0.0
+      - FRPS_BIND_PORT=7000
+      - "FRPS_AUTH_TOKEN={{ .U.auth_token }}"
+      - FRPS_WEBSERVER_ADDR=0.0.0.0
+      - FRPS_WEBSERVER_PORT=7500
+      - "FRPS_WEBSERVER_USER={{ .U.webserver_user }}"
+      - "FRPS_WEBSERVER_PASSWORD={{ .U.webserver_password }}"
+    setup_script: |
+      mkdir -p /etc/frp
+      cp /lzcapp/pkg/content/frps.toml /etc/frp/frps.toml
+    command: -c /etc/frp/frps.toml
+
+usage: |
+  部署时填写与 frpc 一致的鉴权令牌，LazyCat 会自动为内置管理面板注入 Basic Authorization。
+  frps 对外固定开放 TCP 7000 作为控制连接端口，TCP 6000 作为允许的代理端口；如需更多代理端口，需要调整 Manifest 与 frps 配置后重新构建。

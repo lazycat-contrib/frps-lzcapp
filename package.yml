@@ -1,0 +1,20 @@
+package: community.lazycat.app.frps
+version: 0.70.1
+name: frps
+description: "frp server with LazyCat-managed web UI access and fixed TCP ingress for proxy services."
+author: fatedier
+license: Apache-2.0
+homepage: https://github.com/fatedier/frp
+min_os_version: 1.5.0
+
+permissions:
+  required:
+    - net.internet
+
+locales:
+  zh:
+    name: frps
+    description: "使用 LazyCat 管理 Web UI 访问，并固定开放代理 TCP 端口的 frp 服务端。"
+  en:
+    name: frps
+    description: "frp server with LazyCat-managed web UI access and fixed TCP ingress for proxy services."
