@@ -28,9 +28,12 @@ services:
       - FRPS_WEBSERVER_PORT=7500
       - "FRPS_WEBSERVER_USER={{ .U.webserver_user }}"
       - "FRPS_WEBSERVER_PASSWORD={{ .U.webserver_password }}"
+    binds:
+      - /lzcapp/var/frps/config:/etc/frp
     setup_script: |
-      mkdir -p /etc/frp
-      cp /lzcapp/pkg/content/frps.toml /etc/frp/frps.toml
+      if [ ! -f /etc/frp/frps.toml ]; then
+        cp /lzcapp/pkg/content/frps.toml /etc/frp/frps.toml
+      fi
     command: -c /etc/frp/frps.toml
 
 usage: |

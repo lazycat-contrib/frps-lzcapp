@@ -8,7 +8,7 @@ This directory packages `frps` `v0.70.1` as a LazyCat LPK v2 application using t
 - Host-network TCP port `7000` for the frp control channel
 - Host-network TCP port `6000` as the only allowed proxy port
 
-The service uses host networking. The packaged `content/frps.toml` is copied to `/etc/frp/frps.toml` at startup, then rendered by frp itself from `FRPS_*` environment variables.
+The service uses host networking. `/etc/frp` is backed by `/lzcapp/var/frps/config`. The packaged `content/frps.toml` initializes `/etc/frp/frps.toml` only when that file does not exist, so restarts and upgrades preserve user changes. frp renders the initial template from `FRPS_*` environment variables.
 
 ## Deployment parameters
 
